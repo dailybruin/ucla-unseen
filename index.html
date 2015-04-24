@@ -10,14 +10,32 @@
 
 	<div id="googlemaps"></div>
 	<div id="nav">
-		test
+		<a href="http://www.dailybruin.com">
+			<img src="img/db_logo.svg" id="dblogo">
+		</a>
+		<img src="img/db_logo.svg" id="unseenlogo">
+		<!---- change potato to url ---->
+		<ul class="share-buttons" id="social-buttons">
+			<li><a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fpotato&t=" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(document.URL) + '&t=' + encodeURIComponent(document.URL)); return false;"><img src="img/simple_icons_black/Facebook.png"></a></li>
+			<li><a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fpotato&text=:%20http%3A%2F%2Fpotato" target="_blank" title="Tweet" onclick="window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(document.title) + ':%20'  + encodeURIComponent(document.URL)); return false;"><img src="img/simple_icons_black/Twitter.png"></a></li>
+			<li><a href="http://www.tumblr.com/share?v=3&u=http%3A%2F%2Fpotato&t=&s=" target="_blank" title="Post to Tumblr" onclick="window.open('http://www.tumblr.com/share?v=3&u=' + encodeURIComponent(document.URL) + '&t=' +  encodeURIComponent(document.title)); return false;"><img src="img/simple_icons_black/Tumblr.png"></a></li>
+			<li><a href="http://pinterest.com/pin/create/button/?url=http%3A%2F%2Fpotato&description=" target="_blank" title="Pin it" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(document.URL) + '&description=' +  encodeURIComponent(document.title)); return false;"><img src="img/simple_icons_black/Pinterest.png"></a></li>
+		</ul>
 	</div>
 	<div id="content">
-		<div id="card">
-			test
+		<div class="card">
+			<p style="font-family:Roboto; text-align: center; font-weight:none; font-size: 15pt;"> 
+				Daily Bruin Video introduces <i>UCLA Unseen</i>, a new weekly series exploring lesser-known places on campus.
+			</p>
 		</div>
-		<div id="card">
-			test
+		<div class="card">
+			<p class="card-title">Engineering IV</p>
+			<div class="card-video">
+				<iframe class="card-video-embed" height="315" src="https://www.youtube.com/embed/YHi3wyUeUXk" frameborder="0" allowfullscreen></iframe>
+			</div>
+			<div class="card-description">
+				Pinterest photo booth master cleanse asymmetrical synth bespoke narwhal kogi 90's, fingerstache butcher Helvetica American Apparel organic. Flannel hashtag Bushwick, deep v post-ironic Odd Future kitsch banh mi Echo Park 3 wolf moon heirloom listicle fingerstache. XOXO Pitchfork plaid, try-hard sartorial Marfa Thundercats chambray Godard. Polaroid single-origin coffee vegan hella whatever. Migas 90's post-ironic pickled PBR&B, stumptown shabby chic High Life trust fund readymade quinoa cronut pug brunch. Shabby chic letterpress vegan viral photo booth. Single-origin coffee locavore plaid Helvetica, wayfarers 90's paleo.
+			</div>
 		</div>
 	</div>
 </body>
