@@ -28,6 +28,8 @@ function clean_google_sheet_json(data){
 	return formatted_json;
 }
 
+var currentCard = -1;
+
 // Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
 		var data = clean_google_sheet_json(json);
@@ -52,9 +54,47 @@ $.getJSON(dataURL, function(json){
       var markerIndex = mapMarkers.length-1;
       google.maps.event.addListener(mapMarkers[markerIndex], 'click', function() {
           map.panTo(mapMarkers[markerIndex].position);
+          var offset = $(".card").width()/2;
+          map.panBy(-offset-16, -30);
           $('html, body').animate({
               scrollTop: $("#card-" + (markerIndex)).offset().top-75
           }, 1000);
         });
+
+        var cardID = '#card-' + index;
+        $(window).bind('scroll', function() {
+
+              if(currentCard > index)
+                return;
+
+              var position = $(cardID).offset().top + $(cardID).outerHeight() - window.innerHeight;
+              if(currentCard == index && $(window).scrollTop() < position)
+              {
+                currentCard--;
+                map.panTo(mapMarkers[markerIndex-1].position);
+                if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+                  var offset = $(".card").width()/2;
+                  map.panBy(-offset-16, -30);
+                }
+
+              }
+
+              if($(window).scrollTop() >= position && currentCard != index) {
+                currentCard = index;
+                map.panTo(mapMarkers[markerIndex].position);
+                if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+                  var offset = $(".card").width()/2;
+                  map.panBy(-offset-16, -30);
+                }
+              }
+        });
     })
+
+    // Pan to first item at start
+    map.panTo(mapMarkers[0].position);
+    if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+      var offset = $(".card").width()/2;
+      map.panBy(-offset-16, -30);
+    }
+
 });
