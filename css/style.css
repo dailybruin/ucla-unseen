@@ -115,8 +115,10 @@ ul.share-buttons li{
     .card {
         width: 95%;
     }
-    #intro
-    {
+    #intro {
         font-size: 2em;
+    }
+    .card-description {
+        font-size: 10pt;
     }
 }
