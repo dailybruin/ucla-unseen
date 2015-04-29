@@ -111,6 +111,13 @@ ul.share-buttons li{
 	text-align: justify;
 }
 
+.bar {
+	position:relative;
+	width:33.97%;
+	height:30px;
+	background-color: rgb(94,142,198);
+}
+
 #intro {
     font-family: Roboto;
     text-align: center;
