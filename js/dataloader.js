@@ -72,16 +72,29 @@ $.getJSON(dataURL, function(json){
               {
                 currentCard--;
                 map.panTo(mapMarkers[markerIndex-1].position);
-                var offset = $(".card").width()/2;
-                map.panBy(-offset-16, -30);
+                if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+                  var offset = $(".card").width()/2;
+                  map.panBy(-offset-16, -30);
+                }
+
               }
 
               if($(window).scrollTop() >= position && currentCard != index) {
                 currentCard = index;
                 map.panTo(mapMarkers[markerIndex].position);
-                var offset = $(".card").width()/2;
-                map.panBy(-offset-16, -30);
+                if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+                  var offset = $(".card").width()/2;
+                  map.panBy(-offset-16, -30);
+                }
               }
         });
     })
+
+    // Pan to first item at start
+    map.panTo(mapMarkers[0].position);
+    if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+      var offset = $(".card").width()/2;
+      map.panBy(-offset-16, -30);
+    }
+
 });
