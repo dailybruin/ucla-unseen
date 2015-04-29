@@ -29,6 +29,7 @@ function clean_google_sheet_json(data){
 }
 
 var currentCard = -1;
+var autoMapPan = true;
 
 // Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
@@ -53,18 +54,22 @@ $.getJSON(dataURL, function(json){
 
       var markerIndex = mapMarkers.length-1;
       google.maps.event.addListener(mapMarkers[markerIndex], 'click', function() {
-          map.panTo(mapMarkers[markerIndex].position);
-          var offset = $(".card").width()/2;
-          map.panBy(-offset-16, -30);
+          autoMapScroll = false;
           $('html, body').animate({
               scrollTop: $("#card-" + (markerIndex)).offset().top-75
           }, 1000);
+          setTimeout(function (){
+            autoMapScroll = true;
+          }, 1000);
+          map.panTo(mapMarkers[markerIndex].position);
+          var offset = $(".card").width()/2;
+          map.panBy(-offset-16, -30);
         });
 
         var cardID = '#card-' + index;
         $(window).bind('scroll', function() {
 
-              if(currentCard > index)
+              if(currentCard > index || !autoMapScroll)
                 return;
 
               var position = $(cardID).offset().top + $(cardID).outerHeight() - window.innerHeight;
