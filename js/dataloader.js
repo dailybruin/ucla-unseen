@@ -29,7 +29,7 @@ function clean_google_sheet_json(data){
 }
 
 var currentCard = -1;
-var autoMapPan = true;
+var autoMapScroll = true;
 
 // Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
