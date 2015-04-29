@@ -98,3 +98,25 @@ ul.share-buttons li{
 	margin-top: 15px;
 	text-align: justify;
 }
+
+#intro {
+    font-family: Roboto;
+    text-align: center;
+    font-weight:none;
+    font-size: 15pt;
+}
+
+/*  Mobile style */
+@media only screen and (max-device-width: 480px) {
+    #content {
+        margin: 0px;
+        margin-top: 500px;
+    }
+    .card {
+        width: 95%;
+    }
+    #intro
+    {
+        font-size: 2em;
+    }
+}
