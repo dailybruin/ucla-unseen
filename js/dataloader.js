@@ -48,13 +48,13 @@ $.getJSON(dataURL, function(json){
           title: value["title"],
           icon: "http://www.clker.com/cliparts/G/I/o/L/E/h/blue-pin-th.png"
       });
-      infoWindows[infoWindows.length] = new google.maps.InfoWindow({
-        content: value["title"]
-      });
 
-      google.maps.event.addListener(mapMarkers[mapMarkers.length-1], 'click', function() {
-        infoWindows[infoWindows.length-1].open(map,mapMarkers[mapMarkers.length-1]);
-        $("body").scrollTo("#cards-1");
-      });
+      var markerIndex = mapMarkers.length-1;
+      google.maps.event.addListener(mapMarkers[markerIndex], 'click', function() {
+          map.panTo(mapMarkers[markerIndex].position);
+          $('html, body').animate({
+              scrollTop: $("#card-" + (markerIndex)).offset().top-75
+          }, 1000);
+        });
     })
 });
