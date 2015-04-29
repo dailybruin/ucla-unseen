@@ -7,14 +7,18 @@ function showGoogleMaps() {
     var latLng = new google.maps.LatLng(position[0], position[1]);
 
     var mapOptions = {
-        zoom: 18, // initialize zoom level - the max value is 21
-        streetViewControl: false, // hide the yellow Street View pegman
-        scaleControl: false, // allow users to zoom the Google Map
-		 navigationControl: false,
-		mapTypeControl: false,
-		scrollwheel: false,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        center: latLng
+      zoom: 17, // initialize zoom level - the max value is 21
+      streetViewControl: false, // hide the yellow Street View pegman
+      scaleControl: false, // allow users to zoom the Google Map
+      navigationControl: false,
+      mapTypeControl: false,
+      scrollwheel: false,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: latLng,
+      zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.LARGE,
+        position: google.maps.ControlPosition.RIGHT_CENTER
+      },
     };
 
     map = new google.maps.Map(document.getElementById('googlemaps'),
