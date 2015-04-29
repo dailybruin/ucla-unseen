@@ -12,7 +12,7 @@ function clean_google_sheet_json(data){
 	var formatted_json = [];
 	var elem = {};
 	var real_keyname = '';
-	$.each(data.feed.entry, function(i, entry) {
+	$.each(data.feed.entry.reverse(), function(i, entry) {
 		elem = {};
 		$.each(entry, function(key, value){
 			// fields that were in the spreadsheet start with gsx$
@@ -28,10 +28,33 @@ function clean_google_sheet_json(data){
 	return formatted_json;
 }
 
+// Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
 		var data = clean_google_sheet_json(json);
     var source   = $("#card-template").html();
     var cardTemp = Handlebars.compile(source);
 
-    $("#content").append(cardTemp(data));
+    $("#content").append(cardTemp({apidata: data}));
+
+    var mapMarkers = new Array();
+    var infoWindows = new Array();
+
+    $.each(data, function (index, value){
+      mapMarkers[mapMarkers.length] = new google.maps.Marker({
+          position: new google.maps.LatLng(value["lattitude"], value["longitude"]),
+          map: map,
+          draggable: false,
+          animation: google.maps.Animation.DROP,
+          title: value["title"],
+          icon: "http://www.clker.com/cliparts/G/I/o/L/E/h/blue-pin-th.png"
+      });
+      infoWindows[infoWindows.length] = new google.maps.InfoWindow({
+        content: value["title"]
+      });
+
+      google.maps.event.addListener(mapMarkers[mapMarkers.length-1], 'click', function() {
+        infoWindows[infoWindows.length-1].open(map,mapMarkers[mapMarkers.length-1]);
+        $("body").scrollTo("#cards-1");
+      });
+    })
 });

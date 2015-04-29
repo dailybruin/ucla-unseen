@@ -6,8 +6,8 @@
 	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 	<script src="js/jquery-2.1.3.min.js"></script>
 	<script src="js/handlebars-v3.0.3.js"></script>
-	<script src="js/dataloader.js"></script>
 	<script src="js/map.js"></script>
+	<script src="js/dataloader.js"></script>
 
 </head>
 <body>
@@ -33,13 +33,15 @@
 			</p>
 		</div>
 		<script id="card-template" type="text/x-handlebars-template">
-			<div class="card">
+			{{#each apidata}}
+			<div class="card" id="card-{{@index}}">
 				<p class="card-title">{{title}}</p>
 				<div class="card-video">
 					<iframe class="card-video-embed" height="315" src="{{videolink}}" frameborder="0" allowfullscreen></iframe>
 				</div>
 				<div class="card-description">{{description}}</div>
 			</div>
+			{{/each}}
 		</script>
 
 	</div>
