@@ -30,6 +30,8 @@ function clean_google_sheet_json(data){
 
 var currentCard = -1;
 var autoMapScroll = true;
+var mapMarkers = new Array();
+var infoWindows = new Array();
 
 // Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
@@ -39,9 +41,6 @@ $.getJSON(dataURL, function(json){
 
     $("#content").append(cardTemp({apidata: data}));
 
-    var mapMarkers = new Array();
-    var infoWindows = new Array();
-
     $.each(data, function (index, value){
       mapMarkers[mapMarkers.length] = new google.maps.Marker({
           position: new google.maps.LatLng(value["lattitude"], value["longitude"]),
@@ -49,7 +48,7 @@ $.getJSON(dataURL, function(json){
           draggable: false,
           animation: google.maps.Animation.DROP,
           title: value["title"],
-          icon: "http://www.clker.com/cliparts/G/I/o/L/E/h/blue-pin-th.png"
+          icon: "https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/pin.png"
       });
 
       var markerIndex = mapMarkers.length-1;
@@ -61,9 +60,7 @@ $.getJSON(dataURL, function(json){
           setTimeout(function (){
             autoMapScroll = true;
           }, 1000);
-          map.panTo(mapMarkers[markerIndex].position);
-          var offset = $(".card").width()/2;
-          map.panBy(-offset-16, -30);
+	  panMapTo(mapMarkers[markerIndex]);
         });
 
         var cardID = '#card-' + index;
@@ -76,30 +73,30 @@ $.getJSON(dataURL, function(json){
               if(currentCard == index && $(window).scrollTop() < position)
               {
                 currentCard--;
-                map.panTo(mapMarkers[markerIndex-1].position);
-                if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
-                  var offset = $(".card").width()/2;
-                  map.panBy(-offset-16, -30);
-                }
-
+		panMapTo(mapMarkers[markerIndex-1]);
               }
 
               if($(window).scrollTop() >= position && currentCard != index) {
                 currentCard = index;
-                map.panTo(mapMarkers[markerIndex].position);
-                if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
-                  var offset = $(".card").width()/2;
-                  map.panBy(-offset-16, -30);
-                }
+		panMapTo(mapMarkers[markerIndex]);
               }
         });
     })
 
     // Pan to first item at start
-    map.panTo(mapMarkers[0].position);
-    if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
-      var offset = $(".card").width()/2;
-      map.panBy(-offset-16, -30);
-    }
+    panMapTo(mapMarkers[0]);
 
 });
+
+function panMapTo(mapMarker)
+{
+	$.each(mapMarkers, function (index, value){
+		value.setIcon("https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/pin.png");
+	});
+	mapMarker.setIcon("https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/highlighted-pin.png");
+	map.panTo(mapMarker.position);
+	if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+		var offset = $(".card").width()/2;
+		map.panBy(-offset-16, -30);
+	}
+}
