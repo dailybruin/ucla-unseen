@@ -48,7 +48,7 @@ $.getJSON(dataURL, function(json){
           draggable: false,
           animation: google.maps.Animation.DROP,
           title: value["title"],
-          icon: "http://i.imgur.com/O8xgJkz.png"
+          icon: "https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/pin.png"
       });
 
       var markerIndex = mapMarkers.length-1;
@@ -91,9 +91,9 @@ $.getJSON(dataURL, function(json){
 function panMapTo(mapMarker)
 {
 	$.each(mapMarkers, function (index, value){
-		value.setIcon("http://i.imgur.com/O8xgJkz.png");
+		value.setIcon("https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/pin.png");
 	});
-	mapMarker.setIcon("http://i.imgur.com/6bI71oi.png");
+	mapMarker.setIcon("https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/highlighted-pin.png");
 	map.panTo(mapMarker.position);
 	if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
 		var offset = $(".card").width()/2;
