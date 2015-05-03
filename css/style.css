@@ -129,6 +129,7 @@ ul.share-buttons li{
     #googlemaps {
         z-index: 2;
         height: 33%;
+        border-bottom: 6pt solid rgb(1, 136, 210)
     }
     #content {
         margin: 0px;
