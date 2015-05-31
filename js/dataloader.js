@@ -32,6 +32,7 @@ var currentCard = -1;
 var autoMapScroll = true;
 var mapMarkers = new Array();
 var infoWindows = new Array();
+var pinToChange = null;
 
 // Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
@@ -48,7 +49,7 @@ $.getJSON(dataURL, function(json){
           draggable: false,
           animation: google.maps.Animation.DROP,
           title: value["title"],
-          icon: "https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/pin.png"
+          icon: "http://dailybruin.com/images/2015/05/pin.png"
       });
 
       var markerIndex = mapMarkers.length-1;
@@ -90,10 +91,10 @@ $.getJSON(dataURL, function(json){
 
 function panMapTo(mapMarker)
 {
-	$.each(mapMarkers, function (index, value){
-		value.setIcon("https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/pin.png");
-	});
-	mapMarker.setIcon("https://raw.githubusercontent.com/daily-bruin/ucla-unseen/master/img/highlighted-pin.png");
+	if(pinToChange)
+		pinToChange.setIcon("http://dailybruin.com/images/2015/05/pin.png");
+	mapMarker.setIcon("http://dailybruin.com/images/2015/05/highlighted-pin.png");
+	pinToChange = mapMarker;
 	map.panTo(mapMarker.position);
 	if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
 		var offset = $(".card").width()/2;
