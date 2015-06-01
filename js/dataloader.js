@@ -93,10 +93,10 @@ $.getJSON(dataURL, function(json){
 		autoMapScroll++;
 		$('html, body').animate({
 			scrollTop: $("#card-" + (markerIndex)).offset().top-75
-		}, 200);
+		}, 500);
 		setTimeout(function (){
 			autoMapScroll--;
-		}, 230);
+		}, 530);
 
 		panMapTo(markerIndex);
 	}
