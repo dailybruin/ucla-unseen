@@ -29,10 +29,11 @@ function clean_google_sheet_json(data){
 }
 
 var currentCard = -1;
-var autoMapScroll = true;
+var autoMapScroll = 0;
 var mapMarkers = new Array();
 var infoWindows = new Array();
 var pinToChange = null;
+var currentPinIndex = -1;
 
 // Gets data from Google Spreadsheets
 $.getJSON(dataURL, function(json){
@@ -52,52 +53,79 @@ $.getJSON(dataURL, function(json){
           icon: "http://dailybruin.com/images/2015/05/pin.png"
       });
 
-      var markerIndex = mapMarkers.length-1;
-      google.maps.event.addListener(mapMarkers[markerIndex], 'click', function() {
-          autoMapScroll = false;
-          $('html, body').animate({
-              scrollTop: $("#card-" + (markerIndex)).offset().top-75
-          }, 1000);
-          setTimeout(function (){
-            autoMapScroll = true;
-          }, 1000);
-	  panMapTo(mapMarkers[markerIndex]);
-        });
+	      var markerIndex = mapMarkers.length-1;
+	      google.maps.event.addListener(mapMarkers[markerIndex], 'click', function() {
+				clickPin(markerIndex);
+	        });
 
-        var cardID = '#card-' + index;
-        $(window).bind('scroll', function() {
+	        var cardID = '#card-' + index;
+	        $(window).bind('scroll', function() {
 
-              if(currentCard > index || !autoMapScroll)
-                return;
+	              if(currentCard > index || autoMapScroll != 0)
+	                return;
 
-              var position = $(cardID).offset().top + $(cardID).outerHeight() - window.innerHeight;
-              if(currentCard == index && $(window).scrollTop() < position)
-              {
-                currentCard--;
-		panMapTo(mapMarkers[markerIndex-1]);
-              }
+	              var position = $(cardID).offset().top + $(cardID).outerHeight() - window.innerHeight;
+	              if(currentCard == index && $(window).scrollTop() < position)
+	              {
+	                currentCard--;
+					panMapTo(markerIndex-1);
+	              }
 
-              if($(window).scrollTop() >= position && currentCard != index) {
-                currentCard = index;
-		panMapTo(mapMarkers[markerIndex]);
-              }
-        });
-    })
+	              if($(window).scrollTop() >= position && currentCard != index) {
+	                currentCard = index;
+					panMapTo(markerIndex);
+	              }
+	        });
+	    })
 
-    // Pan to first item at start
-    panMapTo(mapMarkers[0]);
+	    // Pan to first item at start
+	    panMapTo(0);
+	});
 
-});
+	function clickPin(markerIndex)
+	{
+		if(!mapMarkers[markerIndex])
+			return;
+		if(autoMapScroll != 0)
+		{
+			$('html, body').clearQueue();
+		}
+		autoMapScroll++;
+		$('html, body').animate({
+			scrollTop: $("#card-" + (markerIndex)).offset().top-75
+		}, 200);
+		setTimeout(function (){
+			autoMapScroll--;
+		}, 230);
 
-function panMapTo(mapMarker)
-{
-	if(pinToChange)
-		pinToChange.setIcon("http://dailybruin.com/images/2015/05/pin.png");
-	mapMarker.setIcon("http://dailybruin.com/images/2015/05/highlighted-pin.png");
-	pinToChange = mapMarker;
-	map.panTo(mapMarker.position);
-	if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
-		var offset = $(".card").width()/2;
-		map.panBy(-offset-16, -30);
+		panMapTo(markerIndex);
 	}
-}
+
+	function panMapTo(markerIndex)
+	{
+		if(markerIndex == currentPinIndex)
+			return;
+		mapMarker = mapMarkers[markerIndex];
+		if(!mapMarker)
+			return;
+		currentPinIndex = markerIndex;
+		if(pinToChange)
+			pinToChange.setIcon("http://dailybruin.com/images/2015/05/pin.png");
+		mapMarker.setIcon("http://dailybruin.com/images/2015/05/highlighted-pin.png");
+		pinToChange = mapMarker;
+		map.panTo(mapMarker.position);
+		if(!( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) )) {
+			var offset = $(".card").width()/2;
+			map.panBy(-offset-16, -30);
+		}
+	}
+
+
+	$(document).keydown(function(e) {
+	    var code = (e.keyCode ? e.keyCode : e.which);
+	    if (code == 40) {
+			clickPin(currentPinIndex+1);
+	    } else if (code == 38) {
+			clickPin(currentPinIndex-1);
+		}
+	});
