@@ -78,38 +78,62 @@ $.getJSON(dataURL, function(json){
 	        });
 	    })
 
+		    
 	    // Pan to first item at start
-	    panMapTo(0);
+	    panMapTo(0, true);
+	    currentPinIndex = -1;
 	});
 
-	function clickPin(markerIndex)
+function clickPin(markerIndex)
+{
+	if(markerIndex < 0)
 	{
-		if(!mapMarkers[markerIndex])
-			return;
-		if(autoMapScroll != 0)
-		{
-			$('html, body').clearQueue();
-		}
 		autoMapScroll++;
 		$('html, body').animate({
-			scrollTop: $("#card-" + (markerIndex)).offset().top-75
+			scrollTop: 0
 		}, 500);
 		setTimeout(function (){
 			autoMapScroll--;
 		}, 530);
 
-		panMapTo(markerIndex);
-	}
-
-	function panMapTo(markerIndex)
-	{
-		if(markerIndex == currentPinIndex)
-			return;
-		mapMarker = mapMarkers[markerIndex];
-		if(!mapMarker)
-			return;
 		currentPinIndex = markerIndex;
-		if(pinToChange)
+	}
+	if(!mapMarkers[markerIndex])
+		return;
+	if(autoMapScroll != 0)
+	{
+		$('html, body').clearQueue();
+	}
+	autoMapScroll++;
+	$('html, body').animate({
+		scrollTop: $("#card-" + (markerIndex)).offset().top-75
+	}, 500);
+	setTimeout(function (){
+		autoMapScroll--;
+	}, 530);
+
+	panMapTo(markerIndex);
+}
+
+function panMapTo(markerIndex)
+{
+	panMapTo(markerIndex, false);
+}
+
+function panMapTo(markerIndex, override)
+{
+	if(!override && (markerIndex == 0 && currentPinIndex == -1))
+	{
+		currentPinIndex = 0;
+		return;
+	}
+	if(!override &&(markerIndex == currentPinIndex)) 
+		return;
+	mapMarker = mapMarkers[markerIndex];
+	if(!mapMarker)
+		return;
+	currentPinIndex = markerIndex;
+	if(pinToChange)
 			pinToChange.setIcon("http://dailybruin.com/images/2015/05/pin.png");
 		mapMarker.setIcon("http://dailybruin.com/images/2015/05/highlighted-pin.png");
 		pinToChange = mapMarker;
@@ -124,8 +148,10 @@ $.getJSON(dataURL, function(json){
 	$(document).keydown(function(e) {
 	    var code = (e.keyCode ? e.keyCode : e.which);
 	    if (code == 40) {
+	    	e.preventDefault();
 			clickPin(currentPinIndex+1);
 	    } else if (code == 38) {
+	    	e.preventDefault();
 			clickPin(currentPinIndex-1);
 		}
 	});
