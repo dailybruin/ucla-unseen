@@ -17,14 +17,16 @@ text-align:center;
 	left: 0;
 	z-index: 2;
 	background: white;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
 }
 
 #dblogo {
 	position: fixed;
 	left: 0;
 	border: 0;
-	padding: 13px;
-	height: 32px;
+    padding:5px;
+	height: 50px;
 }
 
 #unseenlogo {
@@ -134,7 +136,39 @@ ul.share-buttons li{
         font-size: 2em;
     }
     .card-description {
-        font-size: 10pt;
+        font-size: 12pt;
+    }
+    #nav {
+    text-align:center;
+        position: fixed;
+        width: 100%;
+        height: 100px;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        background: white;
+    }
+
+    #dblogo {
+        position: fixed;
+        left: 0;
+        border: 0;
+        padding: 10px;
+        height: 80px;
+    }
+
+    #unseenlogo {
+        padding: 10px;
+        height: 80px;
+    }
+
+    #social-buttons {
+        position: fixed;
+        right: 10px;
+        border: 0;
+        padding: 10px;
+        height: 80px;
+        top: -12px;
     }
 }
 
